@@ -70,7 +70,9 @@ def train(cfg: DictConfig = None,
 
     saved_models_path = os.path.join(output_dir, saved_models_dir)
 
-    os.mkdir(saved_models_path)
+    # if dir does not exit
+    if not os.path.exists(saved_models_path):
+        os.mkdir(saved_models_path)
 
     if cfg.general.model_path:
         if cfg.general.model_path[-15:] == 'best_weights.h5': # resume training from
@@ -80,6 +82,8 @@ def train(cfg: DictConfig = None,
 
         else: # bring your own model
             print("[INFO] Importation of the model ...")
+            print("[INFO] Model path: ", cfg.general.model_path)
+            # tf.config.run_functions_eagerly(True)
             inference_model = tf.keras.models.load_model(cfg.general.model_path, compile=False)
             tmoutput        = tf.keras.layers.Concatenate(axis=2, name='predictions')(inference_model.outputs)
             training_model  = tf.keras.models.Model(inputs=inference_model.input,outputs=tmoutput)
@@ -114,7 +118,7 @@ def train(cfg: DictConfig = None,
                               model_type=cfg.general.model_type,
                               output_dir=output_dir,
                               saved_models_dir=saved_models_dir,
-                              logs_dir=cfg.general.logs_dir)
+                              logs_dir=cfg.general.logs_dir,)
 
     # Train the model
     print("[INFO] Starting training...")
@@ -130,9 +134,11 @@ def train(cfg: DictConfig = None,
 
     best_model_path   = Path(output_dir, saved_models_dir, "best_model.h5")
 
-    inference_model.load_weights(best_weights_path)
+    inference_model.save_weights(best_weights_path)
 
     inference_model.save(best_model_path)
+
+    inference_model.load_weights(best_weights_path)
 
     os.remove(best_weights_path)
 

@@ -1,0 +1,97 @@
+general:
+  project_name: animal_detection
+  model_type: tiny_yolo_v2 #ssd_mobilenet_v2_fpnlite
+  # model_path: /home/mohamed/repos/bird_detection/bird_detection/stm32ai-modelzoo/object_detection/pretrained_models/ssd_mobilenet_v2_fpnlite/ST_pretrainedmodel_public_dataset/coco_2017_person/ssd_mobilenet_v2_fpnlite_035_256/ssd_mobilenet_v2_fpnlite_035_256.h5
+  # logs_dir: /home/mohamed/repos/bird_detection/bird_detection/stm32ai-modelzoo/logs
+  saved_models_dir: /home/mohamed/repos/bird_detection/bird_detection/stm32ai-modelzoo/object_detection/src/experiments_outputs/1/saved_models
+  display_figures: True 
+  gpu_memory_limit: 4
+  global_seed: 127
+
+operation_mode: training
+#choices=['training' , 'evaluation', 'deployment', 'quantization', 'benchmarking',
+#        'chain_tqeb','chain_tqe','chain_eqe','chain_qb','chain_eqeb','chain_qd ']
+
+dataset:
+  name: animal_detection_dataset
+  class_names: [Australian-King-Parrot,Crimson-Rosella,Sugar-Glider,Common-Brushtail-Possum,Musk-Lorikeet,Australian-Owlet-nightjar,Southern-Boobook,Gang-gang-Cockatoo,Barn-Owl,Rainbow-Lorikeet,Common-Ringtail-Possum,Yellow-tailed-Black-Cockatoo,Laughing-Kookaburr,Australian-Wood-Duck,Powerful-Owl]
+  training_path: /home/mohamed/repos/bird_detection/bird_detection/split_darknet/train/images
+  validation_path: /home/mohamed/repos/bird_detection/bird_detection/split_darknet/val/images
+  # test_path:
+  # quantization_path:
+  # quantization_split: 0.3
+
+preprocessing:
+  rescaling:  {scale : 1./255 , offset : 0}
+  resizing:
+    aspect_ratio: fit
+    interpolation: nearest
+  color_mode: rgb
+
+data_augmentation:
+  rotation: 30
+  shearing: 15
+  translation: 0.1
+  vertical_flip: 0.5
+  horizontal_flip: 0.2
+  gaussian_blur: 3.0
+  linear_contrast: [ 0.75, 1.5 ]
+
+training:
+  model:
+    alpha: 0.25 #0.35
+    input_shape: (224, 224, 3)
+    pretrained_weights: coco #imagenet
+  dropout:
+  batch_size: 64
+  epochs: 10
+  optimizer:
+    Adam:
+      learning_rate: 0.01
+  callbacks:
+    ReduceLROnPlateau:
+      monitor: val_loss
+      patience: 20
+    EarlyStopping:
+      monitor: val_loss
+      patience: 40
+
+postprocessing:
+  confidence_thresh: 0.6
+  NMS_thresh: 0.5
+  IoU_eval_thresh: 0.3
+  plot_metrics: true   # Plot precision versus recall curves. Default is False.
+  max_detection_boxes: 20
+
+quantization:
+  quantizer: TFlite_converter
+  quantization_type: PTQ
+  quantization_input_type: uint8
+  quantization_output_type: float
+  export_dir: quantized_models
+
+benchmarking:
+  board: STM32H747I-DISCO
+
+# tools:
+#   stm32ai:
+#     version: 8.1.0
+#     optimization: balanced
+#     on_cloud: True
+#     path_to_stm32ai: C:/Users/<XXXXX>/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-AI/<*.*.*>/Utilities/windows/stm32ai.exe
+#   path_to_cubeIDE: C:/ST/STM32CubeIDE_1.10.1/STM32CubeIDE/stm32cubeide.exe
+
+# deployment:
+#   c_project_path: ../../stm32ai_application_code/object_detection/
+#   IDE: GCC
+#   verbosity: 1 n
+#   hardware_setup:
+#     serie: STM32H7
+#     board: STM32H747I-DISCO
+
+mlflow:
+  uri: ./experiments_outputs/mlruns
+
+hydra:
+  run:
+    dir: ./experiments_outputs/1

@@ -1,0 +1,96 @@
+general:
+  project_name: animal_detection
+  model_type: ssd_mobilenet_v2_fpnlite
+  model_path: /home/mohamed/repos/bird_detection/bird_detection/stm32ai-modelzoo/object_detection/pretrained_models/ssd_mobilenet_v2_fpnlite/ST_pretrainedmodel_public_dataset/coco_2017_person/ssd_mobilenet_v2_fpnlite_035_256/ssd_mobilenet_v2_fpnlite_035_256_int8.tflite
+  logs_dir: logs
+  saved_models_dir: saved_models
+  gpu_memory_limit: 5
+  global_seed: 127
+
+operation_mode: training
+#choices=['training' , 'evaluation', 'deployment', 'quantization', 'benchmarking',
+#        'chain_tqeb','chain_tqe','chain_eqe','chain_qb','chain_eqeb','chain_qd ']
+
+dataset:
+  name: animal_detection_dataset
+  class_names: [Australian-King-Parrot,Crimson-Rosella,Sugar-Glider,Common-Brushtail-Possum,Musk-Lorikeet,Australian-Owlet-nightjar,Southern-Boobook,Gang-gang-Cockatoo,Barn-Owl,Rainbow-Lorikeet,Common-Ringtail-Possum,Yellow-tailed-Black-Cockatoo,Laughing-Kookaburr,Australian-Wood-Duck,Powerful-Owl]
+  training_path: /home/mohamed/repos/bird_detection/bird_detection/split_darknet/train/images
+  validation_path: /home/mohamed/repos/bird_detection/bird_detection/split_darknet/val/images
+  test_path:
+  quantization_path:
+  quantization_split: 0.3
+
+preprocessing:
+  rescaling:  {scale : 127.5, offset : -1}
+  resizing:
+    aspect_ratio: fit
+    interpolation: nearest
+  color_mode: rgb
+
+data_augmentation:
+  rotation: 30
+  shearing: 15
+  translation: 0.1
+  vertical_flip: 0.5
+  horizontal_flip: 0.2
+  gaussian_blur: 3.0
+  linear_contrast: [ 0.75, 1.5 ]
+
+training:
+  model:
+    alpha: 0.25
+    input_shape: (256, 256, 3)
+    pretrained_weights: imagenet
+  dropout:
+  batch_size: 32
+  epochs: 1000
+  optimizer:
+    Adam:
+      learning_rate: 0.001
+  callbacks:
+    ReduceLROnPlateau:
+      monitor: val_loss
+      patience: 20
+    EarlyStopping:
+      monitor: val_loss
+      patience: 40
+
+postprocessing:
+  confidence_thresh: 0.6
+  NMS_thresh: 0.5
+  IoU_eval_thresh: 0.3
+  plot_metrics: True   # Plot precision versus recall curves. Default is False.
+  max_detection_boxes: 20
+
+quantization:
+  quantizer: TFlite_converter
+  quantization_type: PTQ
+  quantization_input_type: uint8
+  quantization_output_type: float
+  export_dir: quantized_models
+
+benchmarking:
+  board: STM32H747I-DISCO
+
+# tools:
+#   stm32ai:
+#     version: 8.1.0
+#     optimization: balanced
+#     on_cloud: True
+#     path_to_stm32ai: C:/Users/<XXXXX>/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-AI/<*.*.*>/Utilities/windows/stm32ai.exe
+#   path_to_cubeIDE: C:/ST/STM32CubeIDE_1.10.1/STM32CubeIDE/stm32cubeide.exe
+
+# deployment:
+#   c_project_path: ../../stm32ai_application_code/object_detection/
+#   IDE: GCC
+#   verbosity: 1 n
+#   hardware_setup:
+#     serie: STM32H7
+#     board: STM32H747I-DISCO
+
+mlflow:
+  uri: ./experiments_outputs/mlruns
+
+hydra:
+  run:
+    dir: ./experiments_outputs/1

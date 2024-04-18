@@ -189,8 +189,8 @@ def main(cfg: DictConfig) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config-path', type=str, default='', help='Path to folder containing configuration file')
-    parser.add_argument('--config-name', type=str, default='user_config', help='name of the configuration file')
+    parser.add_argument('--config-path', type=str, default='/home/mohamed/repos/bird_detection/bird_detection/stm32ai-modelzoo/object_detection/src/config_file_examples', help='Path to folder containing configuration file')
+    parser.add_argument('--config-name', type=str, default='animal_det.yaml', help='name of the configuration file')
     # add arguments to the parser
     parser.add_argument('params', nargs='*',
                         help='List of parameters to over-ride in config.yaml')
