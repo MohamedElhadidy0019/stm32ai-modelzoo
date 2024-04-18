@@ -412,10 +412,10 @@ def preprocess(cfg: DictConfig = None) -> tuple:
 
     # Load the datasets
     train_ds, valid_ds, quantization_ds, test_ds = load_dataset(
-                training_path=cfg.dataset.training_path,
-                validation_path=cfg.dataset.validation_path,
-                quantization_path=cfg.dataset.quantization_path,
-                test_path=cfg.dataset.test_path,
+                training_path=cfg.dataset.training_path,        \
+                validation_path=cfg.dataset.validation_path,\
+                quantization_path=cfg.dataset.quantization_path,\
+                test_path=cfg.dataset.test_path,\
                 validation_split=cfg.dataset.validation_split)
 
 
