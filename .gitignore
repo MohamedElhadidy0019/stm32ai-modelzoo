@@ -1,0 +1,11 @@
+object_detection/src/data_augmentation/__pycache__/data_augment.cpython-38.pyc
+**.pyc
+*.pyc
+**.v2
+object_detection/src/experiments_outputs/
+experiments_outputs/
+object_detection/src/outputs
+outputs/
+
+.vscode/launch.json
+obj_det_code.zip
