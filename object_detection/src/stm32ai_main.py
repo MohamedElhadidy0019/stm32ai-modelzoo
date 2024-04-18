@@ -34,7 +34,7 @@ from parse_config import get_config
 from train import train
 from evaluate import evaluate
 from quantize import quantize
-from benchmark import benchmark
+from benchmarking import benchmark
 from deploy import deploy
 
 from tiny_yolo_v2_preprocess import tiny_yolo_v2_preprocess
