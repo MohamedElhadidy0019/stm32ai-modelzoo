@@ -3,7 +3,7 @@ general:
   model_type: tiny_yolo_v2 #ssd_mobilenet_v2_fpnlite
   # model_path: /home/mohamed/repos/bird_detection/bird_detection/stm32ai-modelzoo/object_detection/pretrained_models/ssd_mobilenet_v2_fpnlite/ST_pretrainedmodel_public_dataset/coco_2017_person/ssd_mobilenet_v2_fpnlite_035_256/ssd_mobilenet_v2_fpnlite_035_256.h5
   # logs_dir: /home/mohamed/repos/bird_detection/bird_detection/stm32ai-modelzoo/logs
-  saved_models_dir: /content/stm32ai-modelzoo/object_detection/src/experiments_outputs/1/saved_models
+  saved_models_dir: /kaggle/working/stm32ai-modelzoo/object_detection/src/experiments_outputs/1
   display_figures: True 
   gpu_memory_limit: 14
   global_seed: 127
@@ -15,8 +15,8 @@ operation_mode: training
 dataset:
   name: animal_detection_dataset
   class_names: [Australian-King-Parrot,Crimson-Rosella,Sugar-Glider,Common-Brushtail-Possum,Musk-Lorikeet,Australian-Owlet-nightjar,Southern-Boobook,Gang-gang-Cockatoo,Barn-Owl,Rainbow-Lorikeet,Common-Ringtail-Possum,Yellow-tailed-Black-Cockatoo,Laughing-Kookaburr,Australian-Wood-Duck,Powerful-Owl]
-  training_path: /content/split_darknet/train/images
-  validation_path: /content/split_darknet/val/images
+  training_path: /kaggle/input/animal-detection/split_darknet/train/images
+  validation_path: /kaggle/input/animal-detection/split_darknet/val/images
   # test_path:
   # quantization_path:
   # quantization_split: 0.3
