@@ -1,9 +1,9 @@
 general:
   project_name: animal_detection
-  model_type: ssd_mobilenet_v2_fpnlite #ssd_mobilenet_v2_fpnlite
+  model_type: tiny_yolo_v2 #ssd_mobilenet_v2_fpnlite
   # model_path: /home/mohamed/repos/bird_detection/bird_detection/stm32ai-modelzoo/object_detection/pretrained_models/ssd_mobilenet_v2_fpnlite/ST_pretrainedmodel_public_dataset/coco_2017_person/ssd_mobilenet_v2_fpnlite_035_256/ssd_mobilenet_v2_fpnlite_035_256.h5
   # logs_dir: /home/mohamed/repos/bird_detection/bird_detection/stm32ai-modelzoo/logs
-  saved_models_dir: /kaggle/working/stm32ai-modelzoo/object_detection/src/experiments_outputs/1
+  saved_models_dir: /home/mohamed/repos/bird_detection/bird_detection/stm32ai-modelzoo/object_detection/src/experiments_outputs/1/saved_models
   display_figures: True 
   gpu_memory_limit: 4
   global_seed: 127
@@ -15,14 +15,14 @@ operation_mode: training
 dataset:
   name: animal_detection_dataset
   class_names: [Australian-King-Parrot,Crimson-Rosella,Sugar-Glider,Common-Brushtail-Possum,Musk-Lorikeet,Australian-Owlet-nightjar,Southern-Boobook,Gang-gang-Cockatoo,Barn-Owl,Rainbow-Lorikeet,Common-Ringtail-Possum,Yellow-tailed-Black-Cockatoo,Laughing-Kookaburr,Australian-Wood-Duck,Powerful-Owl]
-  training_path: /kaggle/input/animal-detection/split_darknet/train/images
-  validation_path: /kaggle/input/animal-detection/split_darknet/val/images
+  training_path: /home/mohamed/repos/bird_detection/bird_detection/split_darknet/train/images
+  validation_path: /home/mohamed/repos/bird_detection/bird_detection/split_darknet/val/images
   # test_path:
   # quantization_path:
   # quantization_split: 0.3
 
 preprocessing:
-  rescaling:  {scale : 127.5, offset : -1}
+  rescaling:  {scale : 1./255 , offset : 0}
   resizing:
     aspect_ratio: fit
     interpolation: nearest
@@ -39,12 +39,12 @@ data_augmentation:
 
 training:
   model:
-    alpha: 0.35 #0.35
-    input_shape: (256, 256, 3)
-    pretrained_weights: imagenet #coco #imagenet
+    alpha: 0.25 #0.35
+    input_shape: (224, 224, 3)
+    pretrained_weights: coco #imagenet
   dropout:
   batch_size: 64
-  epochs: 2
+  epochs: 10
   optimizer:
     Adam:
       learning_rate: 0.01
