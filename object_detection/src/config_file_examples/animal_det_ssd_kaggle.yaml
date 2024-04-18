@@ -1,5 +1,5 @@
 general:
-  project_name: animal_detection
+  project_name: animal_det_ssd_kaggle
   model_type: ssd_mobilenet_v2_fpnlite #tiny_yolo_v2 #ssd_mobilenet_v2_fpnlite
   # model_path: /home/mohamed/repos/bird_detection/bird_detection/stm32ai-modelzoo/object_detection/pretrained_models/ssd_mobilenet_v2_fpnlite/ST_pretrainedmodel_public_dataset/coco_2017_person/ssd_mobilenet_v2_fpnlite_035_256/ssd_mobilenet_v2_fpnlite_035_256.h5
   # logs_dir: /home/mohamed/repos/bird_detection/bird_detection/stm32ai-modelzoo/logs
