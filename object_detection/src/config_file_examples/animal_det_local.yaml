@@ -1,28 +1,31 @@
 general:
   project_name: animal_detection
   model_type: ssd_mobilenet_v2_fpnlite #tiny_yolo_v2 #ssd_mobilenet_v2_fpnlite
-  # model_path: /home/mohamed/repos/bird_detection/bird_detection/stm32ai-modelzoo/object_detection/pretrained_models/ssd_mobilenet_v2_fpnlite/ST_pretrainedmodel_public_dataset/coco_2017_person/ssd_mobilenet_v2_fpnlite_035_256/ssd_mobilenet_v2_fpnlite_035_256.h5
+  # model_path: /home/mohamed/repos/bird_detection/bird_detection/stm32ai-modelzoo/object_detection/src/best_model.h5
+  model_path: /home/mohamed/repos/bird_detection/bird_detection/stm32ai-modelzoo/object_detection/src/quantized_model.tflite
   # logs_dir: /home/mohamed/repos/bird_detection/bird_detection/stm32ai-modelzoo/logs
   saved_models_dir: /home/mohamed/repos/bird_detection/bird_detection/stm32ai-modelzoo/object_detection/src/experiments_outputs/1/saved_models
   display_figures: True 
-  gpu_memory_limit: 4
+  gpu_memory_limit: 5
   global_seed: 127
 
-operation_mode: training
+operation_mode: evaluation
 #choices=['training' , 'evaluation', 'deployment', 'quantization', 'benchmarking',
 #        'chain_tqeb','chain_tqe','chain_eqe','chain_qb','chain_eqeb','chain_qd ']
 
 dataset:
   name: animal_detection_dataset
   class_names: [Australian-King-Parrot,Crimson-Rosella,Sugar-Glider,Common-Brushtail-Possum,Musk-Lorikeet,Australian-Owlet-nightjar,Southern-Boobook,Gang-gang-Cockatoo,Barn-Owl,Rainbow-Lorikeet,Common-Ringtail-Possum,Yellow-tailed-Black-Cockatoo,Laughing-Kookaburr,Australian-Wood-Duck,Powerful-Owl]
-  training_path: /home/mohamed/repos/bird_detection/bird_detection/split_darknet/train/images
-  validation_path: /home/mohamed/repos/bird_detection/bird_detection/split_darknet/val/images
+  training_path: /home/mohamed/repos/bird_detection/bird_detection/split_darknet/train_mini/images
+  # validation_path: /home/mohamed/repos/bird_detection/bird_detection/split_darknet/val_mini/images
+  validation_path: /home/mohamed/repos/bird_detection/bird_detection/split_darknet/weird_test/images
+  # quantization_path: /home/mohamed/repos/bird_detection/bird_detection/split_darknet/train/images
+  # quantization_split: 0.2
   # test_path:
   # quantization_path:
-  # quantization_split: 0.3
 
 preprocessing:
-  rescaling:  {scale : 1./255 , offset : 0}
+  rescaling:  {scale : 127.5, offset : -1}
   resizing:
     aspect_ratio: fit
     interpolation: nearest
@@ -34,7 +37,7 @@ data_augmentation:
   translation: 0.1
   vertical_flip: 0.5
   horizontal_flip: 0.2
-  gaussian_blur: 3.0
+  gaussian_blur: 0.0
   linear_contrast: [ 0.75, 1.5 ]
 
 training:
@@ -44,10 +47,10 @@ training:
     pretrained_weights: imagenet #coco #imagenet
   dropout:
   batch_size: 64
-  epochs: 10
+  epochs: 35
   optimizer:
     Adam:
-      learning_rate: 0.01
+      learning_rate: 0.000001
   callbacks:
     ReduceLROnPlateau:
       monitor: val_loss
@@ -57,9 +60,9 @@ training:
       patience: 40
 
 postprocessing:
-  confidence_thresh: 0.6
+  confidence_thresh: 0.4
   NMS_thresh: 0.5
-  IoU_eval_thresh: 0.3
+  IoU_eval_thresh: 0.4
   plot_metrics: true   # Plot precision versus recall curves. Default is False.
   max_detection_boxes: 20
 

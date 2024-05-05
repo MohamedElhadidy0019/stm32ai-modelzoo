@@ -76,11 +76,22 @@ def get_detection_boxes(predictions, example_path=None, image_size= None, boundi
     extension. It is used as a unique ID to associate images and bounding boxes.
     """
         
+    output_inference_save = '/home/mohamed/repos/bird_detection/bird_detection/split_darknet/weird_test/labels_inference/'
+    txt_name = os.path.basename(example_path)
+    with open(output_inference_save + txt_name + '.txt', 'w') as f:
+        pass
+
+            
     for predicted_class, detection_boxes in predictions.items():
         for bbox in detection_boxes:
             score, xmi, ymi, xma, yma = bbox
             x, y, w, h = corners_to_center_box_coords(xmi, xma, ymi, yma, image_size=image_size, relative=True)
-
+            # get the name of the file in example path
+            txt_name = os.path.basename(example_path)
+            x_save, y_save, w_save, h_save = check(x), check(y), check(w), check(h)
+            with open(output_inference_save + txt_name + '.txt', 'a') as f:
+                f.write(f"{int(predicted_class)} {x_save} {y_save} {w_save} {h_save}\n")
+            
             bb = BoundingBox(example_path,
                              int(predicted_class),
                              check(x), check(y), check(w), check(h),

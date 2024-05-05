@@ -1,0 +1,40 @@
+Float model
+Class                            AP %
+----------------------------  -------
+Australian-King-Parrot        51.9198
+Crimson-Rosella               65.2205
+Sugar-Glider                   0
+Common-Brushtail-Possum       42.4423
+Musk-Lorikeet                 52.0665
+Australian-Owlet-nightjar      0
+Southern-Boobook              16.3808
+Gang-gang-Cockatoo            29.6049
+Barn-Owl                      45.08
+Rainbow-Lorikeet              50.1356
+Common-Ringtail-Possum        28.5518
+Yellow-tailed-Black-Cockatoo  45.0959
+Laughing-Kookaburr            67.2171
+Australian-Wood-Duck          44.2336
+Powerful-Owl                  25.8112
+Float model average AP over classes (mAP): 37.58
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+uint8 model
+Class                            AP %
+----------------------------  -------
+Australian-King-Parrot        52.7197
+Crimson-Rosella               63.9809
+Sugar-Glider                   0
+Common-Brushtail-Possum       41.7543
+Musk-Lorikeet                 50.3106
+Australian-Owlet-nightjar      0
+Southern-Boobook              15.2613
+Gang-gang-Cockatoo            30.5043
+Barn-Owl                      44.0516
+Rainbow-Lorikeet              49.0308
+Common-Ringtail-Possum        28.633
+Yellow-tailed-Black-Cockatoo  44.7465
+Laughing-Kookaburr            65.5093
+Australian-Wood-Duck          43.1028
+Powerful-Owl                  25.3837
+Quantized model average AP over classes (mAP): 37.00
