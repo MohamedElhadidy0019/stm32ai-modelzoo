@@ -1,0 +1,21 @@
+path: /home/mohamed/repos/bird_detection/bird_detection/dataset
+train: train
+val: val
+
+names:
+  0: Australian-King-Parrot
+  1: Crimson-Rosella
+  2: Sugar-Glider
+  3: Common-Brushtail-Possum
+  4: Musk-Lorikeet
+  5: Australian-Owlet-nightjar
+  6: Southern-Boobook
+  7: Gang-gang-Cockatoo
+  8: Barn-Owl
+  9: Rainbow-Lorikeet
+  10: Common-Ringtail-Possum
+  11: Yellow-tailed-Black-Cockatoo
+  12: Laughing-Kookaburr
+  13: Australian-Wood-Duck
+  14: Powerful-Owl
+
