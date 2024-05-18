@@ -8,8 +8,6 @@ from copy import deepcopy
 import cv2
 import PIL
 
-#class_names: [Australian-King-Parrot,Crimson-Rosella,Sugar-Glider,Common-Brushtail-Possum,Musk-Lorikeet,Australian-Owlet-nightjar,Southern-Boobook,Gang-gang-Cockatoo,Barn-Owl,Rainbow-Lorikeet,Common-Ringtail-Possum,Yellow-tailed-Black-Cockatoo,Laughing-Kookaburr,Australian-Wood-Duck,Powerful-Owl]
-#hcange this to array of strings
 class_names = ['Australian-King-Parrot','Crimson-Rosella','Sugar-Glider','Common-Brushtail-Possum','Musk-Lorikeet','Australian-Owlet-nightjar','Southern-Boobook','Gang-gang-Cockatoo','Barn-Owl','Rainbow-Lorikeet','Common-Ringtail-Possum','Yellow-tailed-Black-Cockatoo','Laughing-Kookaburr','Australian-Wood-Duck','Powerful-Owl']
 
 def interval_overlap(interval_a, interval_b):
@@ -233,7 +231,7 @@ def vis_bbox(image, bboxes):
         rect = plt.Rectangle((xmi, ymi), w, h, fill=False, edgecolor='red', linewidth=2)
         ax.add_patch(rect)
         ax.text(xmi, ymi, f'{bbox[0]}', fontsize=10, color='red')
-    name = class_names[cls-1]
+    name = class_names[cls-1]   # -1 as the tfilte model outputs the results starting from 1, while ground truth starts from 0
     ax.set_title(name + ' ' + str(cls))
     plt.show()
 
