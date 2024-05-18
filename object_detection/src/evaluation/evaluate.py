@@ -40,7 +40,7 @@ from metrics_utils import check, calculate_map
 def get_ground_truth_boxes(example_path, image_size=None, bounding_boxes=None):
     """
     Parse the *.txt file corresponding to an image file to get the ground truth
-    boxes of the images. Then, add them to the set of bounding boxes of all 
+    boxes of the images. Then, add them to the set of bounding boxes of all
     the images.
     The argument example_path is the path to the image path without the file
     extension. It is used as a unique ID to associate images and bounding boxes.
@@ -68,20 +68,20 @@ def get_ground_truth_boxes(example_path, image_size=None, bounding_boxes=None):
 
 def get_detection_boxes(predictions, example_path=None, image_size= None, bounding_boxes=None):
     """
-    Extract the bounding boxes from the detections obtained for a given image. 
+    Extract the bounding boxes from the detections obtained for a given image.
     Convert the coordinates of the boxes from (x_min,x_max, y_min, y_max)
     coordinates to (x_center, y_center, w, h) coordinates. Then, add the boxes
     to the set of bounding boxes of all the images.
     The argument example_path is the path to the image path without the file
     extension. It is used as a unique ID to associate images and bounding boxes.
     """
-        
+
     output_inference_save = '/home/mohamed/repos/bird_detection/bird_detection/split_darknet/weird_test/labels_inference/'
     txt_name = os.path.basename(example_path)
     with open(output_inference_save + txt_name + '.txt', 'w') as f:
         pass
 
-            
+
     for predicted_class, detection_boxes in predictions.items():
         for bbox in detection_boxes:
             score, xmi, ymi, xma, yma = bbox
@@ -91,7 +91,7 @@ def get_detection_boxes(predictions, example_path=None, image_size= None, boundi
             x_save, y_save, w_save, h_save = check(x), check(y), check(w), check(h)
             with open(output_inference_save + txt_name + '.txt', 'a') as f:
                 f.write(f"{int(predicted_class)} {x_save} {y_save} {w_save} {h_save}\n")
-            
+
             bb = BoundingBox(example_path,
                              int(predicted_class),
                              check(x), check(y), check(w), check(h),
@@ -164,10 +164,10 @@ def calculate_float_map(model: tf.keras.Model = None,
     Returns:
         A list of dictionaries:
             There is one dictionary for each class with the following keys:
-            ['class', 'precision', 'recall', 'AP', 'interpolated precision', 'interpolated recall', 
+            ['class', 'precision', 'recall', 'AP', 'interpolated precision', 'interpolated recall',
              'total positives', 'total TP', 'total FP']
     """
-    
+
     image_size = input_shape[:2]
 
     # Ground truth and detection boxes for all images
@@ -175,7 +175,7 @@ def calculate_float_map(model: tf.keras.Model = None,
 
     for img_path in tqdm.tqdm(image_file_paths):
 
-        # The path to the image file path without the extension is used 
+        # The path to the image file path without the extension is used
         # to associate an image with its ground truth and detection boxes
         example_path = os.path.splitext(img_path)[0]
 
@@ -239,7 +239,7 @@ def calculate_quantized_map(model_path: str = None,
     Returns:
         A list of dictionaries:
             There is one dictionary for each class with the following keys:
-            ['class', 'precision', 'recall', 'AP', 'interpolated precision', 'interpolated recall', 
+            ['class', 'precision', 'recall', 'AP', 'interpolated precision', 'interpolated recall',
              'total positives', 'total TP', 'total FP']
     """
 
@@ -255,7 +255,7 @@ def calculate_quantized_map(model_path: str = None,
     output_index = interpreter.get_output_details()
 
     for img_path in tqdm.tqdm(image_file_paths):
-        # The path to the image file without the extension is used 
+        # The path to the image file without the extension is used
         # to associate an image with its ground truth and detection boxes
         example_path = os.path.splitext(img_path)[0]
 
@@ -282,7 +282,7 @@ def calculate_quantized_map(model_path: str = None,
         # and clip to the min/max values of this data type
         input_dtype = input_details['dtype']
         image = image.astype(dtype=input_dtype)
-        image = np.clip(image, np.iinfo(input_dtype).min, np.iinfo(input_dtype).max)                 
+        image = np.clip(image, np.iinfo(input_dtype).min, np.iinfo(input_dtype).max)
 
         # Make a prediction for the image to get detection boxes
         interpreter.set_tensor(input_index, image)
@@ -376,7 +376,7 @@ def evaluate(cfg: DictConfig = None,
         raise RuntimeError("Internal error: unsupported model file extension")
 
     # Get the AP results from the evaluator output and calculate the mAP
-    class_names = ["background"] + cfg.dataset.class_names    
+    class_names = ["background"] + cfg.dataset.class_names
     ap_classes_names = [class_names[cm["class"]] for cm in metrics_data]
     ap_classes = [float(cm["AP"]) for cm in metrics_data]
     map = calculate_map(ap_classes=ap_classes, ap_classes_names=ap_classes_names)

@@ -113,6 +113,9 @@ def train(cfg: DictConfig = None,
 
     # Compile the training model
     training_model.compile(optimizer=get_optimizer(cfg.training.optimizer), loss=ssd_focal_loss())
+    tf.saved_model.save(training_model, "tmp_model")
+
+    raise Exception("Stop here NO MORE")
 
     callbacks = get_callbacks(callbacks_dict=cfg.training.callbacks,
                               model_type=cfg.general.model_type,
